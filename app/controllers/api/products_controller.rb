@@ -1,10 +1,11 @@
 module Api
     class ProductsController < ApplicationController
 
-        ALLOWED_DATA = %[name description price rating].freeze
         def index
+        
             products = Product.all
-            render json: products
+            render json: ProductSerializer.new(products).serializable_hash[:data]
+            # ProductSerializer.new(products).serializable_hash[:data][:attributes]
         end
         
         # def show 
@@ -12,21 +13,22 @@ module Api
         #     render json: product
         # end
 
-        # def create
-        #     data = json_payload.select {|k| ALLOWED_DATA.include?(k)}
-        #     product = Product.new(data)
-        #     if product.save
-        #         render json: product
-        #     else
-        #         render json: {"error": "could not create it"}
-        #     end
-        # end
+        def create
+            product = Product.new(product_params)
+            if product.save
+                render json: product
+            else
+                render json: {"error": "could not create it"}
+            end
+        end
 
         # def destroy
         #     product = Product.find(params[:id])
         #     product.destroy
         # end
-
+        def product_params
+            params.require(:product).permit(:name,:description,:price,:rating,:image)
+        end
     end
 end
 

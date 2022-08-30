@@ -8,10 +8,10 @@ module Api
             # ProductSerializer.new(products).serializable_hash[:data][:attributes]
         end
         
-        # def show 
-        #     product = Product.find(params[:id])
-        #     render json: product
-        # end
+        def show 
+            product = Product.find(params[:id])
+            render json: ProductSerializer.new(product).serializable_hash[:data][:attributes]
+        end
 
         def create
             product = Product.new(product_params)

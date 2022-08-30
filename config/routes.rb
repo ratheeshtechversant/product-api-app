@@ -8,5 +8,14 @@ Rails.application.routes.draw do
   resources :products
   namespace :api do
     resources :products, defaults: {format: :json}
+    resources :carts, defaults: {format: :json}
+    resources :cart_items, defaults: {format: :json}
+    resources :cart_items,defaults: {format: :json} do
+      
+      collection do
+        post 'cartitems'
+      end
+    end
+
   end
 end

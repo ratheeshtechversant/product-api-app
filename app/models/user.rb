@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   has_one :cart
   has_many :orders
+  has_one :user_information
 
 
   def image_url

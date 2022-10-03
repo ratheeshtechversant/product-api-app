@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  mobile: MyString
+  pincode: MyString
+  address: MyText
+  locality: MyString
+  city: MyString
+  landmark: MyString
+  alternate_mobile: MyString
+  address_type: MyString
+  user: one
+
+two:
+  name: MyString
+  mobile: MyString
+  pincode: MyString
+  address: MyText
+  locality: MyString
+  city: MyString
+  landmark: MyString
+  alternate_mobile: MyString
+  address_type: MyString
+  user: two

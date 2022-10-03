@@ -1,14 +1,24 @@
 class Api::CartItemsController < ApplicationController
     def index
-        cart= Cart.find_by(user_id: current_user.id)
-        cart_item = CartItem.find_by(cart_id: cart.id)
+        cart= Cart.find_by(user_id: current_user.id)      
+
         if cart.present?
+            cart_item = CartItem.where(cart_id: cart.id) 
+            product1 = []
+            cart_item.each do |x|
+            
+                puts x.product_id
+                product = Product.find(x.product_id)
+                prod = ProductSerializer.new(product).serializable_hash[:data][:attributes]
+                # puts prod
+                product1.push({cart_item: x,cart_product: prod})
+            end
             sql = "SELECT *,cart_items.id FROM cart_items INNER JOIN products  ON
                     cart_items.product_id = products.id AND cart_items.cart_id=#{cart.id}"
             carts =  ActiveRecord::Base.connection.execute(sql)
-            render json: carts
+            render json: {carts: carts,products: product1,message: "present"}
         else
-            render json: {message: "cart not present"}
+            render json: {carts:"",products:"",message: "cart not present"}
 
         end
 

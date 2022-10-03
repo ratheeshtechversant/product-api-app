@@ -12,9 +12,13 @@ Rails.application.routes.draw do
     resources :cart_items, defaults: {format: :json}
     resources :orders, defaults: {format: :json}
     resources :order_items, defaults: {format: :json}
+    resources :categories, defaults: {format: :json}
+    resources :user_informations, defaults: {format: :json}
+    resources :addresses, defaults: {format: :json}
 
     resources :orders,defaults: {format: :json} do
              post 'buynow'
+             get 'orderAgain'
     
     end
 

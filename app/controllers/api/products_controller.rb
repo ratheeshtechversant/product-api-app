@@ -27,7 +27,7 @@ module Api
         #     product.destroy
         # end
         def product_params
-            params.require(:product).permit(:name,:description,:price,:rating,:image)
+            params.require(:product).permit(:name,:description,:price,:rating,:category_id,:image)
         end
     end
 end

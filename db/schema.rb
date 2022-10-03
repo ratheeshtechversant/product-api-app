@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_31_085738) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_23_050130) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_085738) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "name"
+    t.string "mobile"
+    t.string "pincode"
+    t.text "address"
+    t.string "locality"
+    t.string "city"
+    t.string "landmark"
+    t.string "alternate_mobile"
+    t.string "address_type"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
   create_table "cart_items", force: :cascade do |t|
     t.decimal "quantity"
     t.string "weight_type"
@@ -58,6 +74,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_085738) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -87,6 +109,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_085738) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "delivery_charges"
+    t.text "delivery_address"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -97,6 +121,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_085738) do
     t.integer "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
+  end
+
+  create_table "user_informations", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "gender"
+    t.string "mobile"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_informations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -122,10 +159,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_085738) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "products", "categories"
+  add_foreign_key "user_informations", "users"
 end

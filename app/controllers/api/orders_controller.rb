@@ -2,10 +2,11 @@ class Api::OrdersController < ApplicationController
     def index
         if Order.exists?(user_id: current_user.id)
             order = Order.where(user_id: current_user.id)
+            render json: {order: order,message: "present"}
         else
-            render json: {message: "order empty"}
+            render json: {order: "",message: "empty"}
         end
-        render json: order
+        
     end
 
     def show
@@ -41,6 +42,12 @@ class Api::OrdersController < ApplicationController
         end
     
     end
+
+    def orderAgain
+        # order = Order.find(params[:id])
+        render json: {message: "hii"}
+    end
+
     def buynow
         order = Order.new(order_params)
         if order.save
@@ -64,7 +71,7 @@ class Api::OrdersController < ApplicationController
     end
 
     def order_params
-        param = params.require(:order).permit(:total_amount,:tax,:total_to_pay,:status)
+        param = params.require(:order).permit(:total_amount,:tax,:total_to_pay,:status,:delivery_charges,:delivery_address)
         param["user_id"] = current_user.id
         param
     end
